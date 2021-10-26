@@ -1,5 +1,6 @@
 module.exports = [
 	{
+		user_id: 1,
 		name: "Kaphon Saengdara",
 		gender: "male",
 		age: 20,

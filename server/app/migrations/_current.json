@@ -4,10 +4,9 @@
             "tableName": "addresses",
             "schema": {
                 "id": {
-                    "allowNull": false,
                     "primaryKey": true,
                     "autoIncrement": true,
-                    "field": "id",
+                    "field": "address_id",
                     "seqType": "Sequelize.INTEGER"
                 },
                 "homeNo": {
@@ -49,6 +48,17 @@
                     "allowNull": false,
                     "field": "updated_at",
                     "seqType": "Sequelize.DATE"
+                },
+                "userId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "users",
+                        "key": "user_id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "user_id",
+                    "seqType": "Sequelize.INTEGER"
                 }
             },
             "indexes": []
@@ -57,10 +67,9 @@
             "tableName": "users",
             "schema": {
                 "id": {
-                    "allowNull": false,
                     "primaryKey": true,
                     "autoIncrement": true,
-                    "field": "id",
+                    "field": "user_id",
                     "seqType": "Sequelize.INTEGER"
                 },
                 "username": {
@@ -89,28 +98,6 @@
                     "allowNull": false,
                     "field": "updated_at",
                     "seqType": "Sequelize.DATE"
-                },
-                "addressId": {
-                    "allowNull": true,
-                    "references": {
-                        "model": "addresses",
-                        "key": "id"
-                    },
-                    "onDelete": "SET NULL",
-                    "onUpdate": "CASCADE",
-                    "field": "address_id",
-                    "seqType": "Sequelize.INTEGER"
-                },
-                "userDetailId": {
-                    "allowNull": true,
-                    "references": {
-                        "model": "user_details",
-                        "key": "id"
-                    },
-                    "onDelete": "SET NULL",
-                    "onUpdate": "CASCADE",
-                    "field": "user_detail_id",
-                    "seqType": "Sequelize.INTEGER"
                 }
             },
             "indexes": []
@@ -119,10 +106,9 @@
             "tableName": "user_details",
             "schema": {
                 "id": {
-                    "allowNull": false,
                     "primaryKey": true,
                     "autoIncrement": true,
-                    "field": "id",
+                    "field": "user_id",
                     "seqType": "Sequelize.INTEGER"
                 },
                 "name": {
@@ -169,6 +155,17 @@
                     "allowNull": false,
                     "field": "updated_at",
                     "seqType": "Sequelize.DATE"
+                },
+                "user_id": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "users",
+                        "key": "user_id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "user_id",
+                    "seqType": "Sequelize.INTEGER"
                 }
             },
             "indexes": []

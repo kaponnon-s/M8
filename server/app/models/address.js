@@ -9,11 +9,17 @@ module.exports = (sequelize, DataTypes) => {
 		 */
 		static associate(models) {
 			// define association here
-			address.hasOne(models.user);
+			address.belongsTo(models.user);
 		}
 	}
 	address.init(
 		{
+			id: {
+				type: DataTypes.INTEGER,
+				primaryKey: true,
+				autoIncrement: true,
+				field: "address_id",
+			},
 			homeNo: {
 				type: DataTypes.STRING,
 				allowNull: false,
@@ -60,7 +66,7 @@ module.exports = (sequelize, DataTypes) => {
 		{
 			sequelize,
 			modelName: "address",
-			underscored: true
+			underscored: true,
 		}
 	);
 	return address;

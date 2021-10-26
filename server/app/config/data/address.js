@@ -1,5 +1,6 @@
 module.exports = [
 	{
+		user_id: 1,
 		home_no: "46/53",
 		road: "Petchkasem",
 		sub_district: "Wat Tha Phra",

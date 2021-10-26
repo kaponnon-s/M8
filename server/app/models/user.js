@@ -9,12 +9,21 @@ module.exports = (sequelize, DataTypes) => {
 		 */
 		static associate(models) {
 			// define association here
-			user.belongsTo(models.userDetail);
-			user.belongsTo(models.address);
+			user.hasOne(models.userDetail, {
+				foreignKey: "user_id",
+				as: "userId",
+			});
+			user.hasMany(models.address);
 		}
 	}
 	user.init(
 		{
+			id: {
+				type: DataTypes.INTEGER,
+				primaryKey: true,
+				autoIncrement: true,
+				field: "user_id",
+			},
 			username: {
 				type: DataTypes.STRING,
 				allowNull: false,
@@ -42,7 +51,7 @@ module.exports = (sequelize, DataTypes) => {
 		{
 			sequelize,
 			modelName: "user",
-			underscored: true
+			underscored: true,
 		}
 	);
 	return user;
