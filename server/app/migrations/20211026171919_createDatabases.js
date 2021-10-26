@@ -11,8 +11,8 @@ const Sequelize = require("sequelize");
 
 const info = {
 	revision: 1,
-	name: "createDatabase",
-	created: "2021-10-26T04:44:52.982Z",
+	name: "createDatabases",
+	created: "2021-10-26T17:19:19.149Z",
 	comment: "",
 };
 
@@ -119,8 +119,12 @@ const migrationCommands = (transaction) => [
 		params: [
 			"user_details",
 			{
-				id: {
+				userId: {
 					type: Sequelize.INTEGER,
+					onUpdate: "CASCADE",
+					onDelete: "CASCADE",
+					references: { model: "users", key: "user_id" },
+					allowNull: true,
 					field: "user_id",
 					autoIncrement: true,
 					primaryKey: true,
@@ -145,14 +149,6 @@ const migrationCommands = (transaction) => [
 					type: Sequelize.DATE,
 					field: "updated_at",
 					allowNull: false,
-				},
-				user_id: {
-					type: Sequelize.INTEGER,
-					field: "user_id",
-					onUpdate: "CASCADE",
-					onDelete: "SET NULL",
-					references: { model: "users", key: "user_id" },
-					allowNull: true,
 				},
 			},
 			{ transaction },

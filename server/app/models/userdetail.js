@@ -10,14 +10,13 @@ module.exports = (sequelize, DataTypes) => {
 		static associate(models) {
 			// define association here
 			userDetail.belongsTo(models.user, {
-				foreignKey: "user_id",
-				as: "userId",
+				foreignKey: "userId"
 			});
 		}
 	}
 	userDetail.init(
 		{
-			id: {
+			userId: {
 				type: DataTypes.INTEGER,
 				primaryKey: true,
 				autoIncrement: true,
@@ -28,6 +27,7 @@ module.exports = (sequelize, DataTypes) => {
 				allowNull: false,
 				validate: {
 					notEmpty: true,
+					isLowercase: true
 				},
 			},
 			gender: {

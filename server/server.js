@@ -1,5 +1,8 @@
 require("dotenv").config();
 require("./app/middlewares/passport");
+
+global.basename = __dirname;
+
 const app = require("./app/config/express");
 
 const listener = app.listen(process.env.PORT || 5000, (err) => {

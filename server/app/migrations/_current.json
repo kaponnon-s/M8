@@ -105,10 +105,17 @@
         "user_details": {
             "tableName": "user_details",
             "schema": {
-                "id": {
+                "userId": {
                     "primaryKey": true,
                     "autoIncrement": true,
                     "field": "user_id",
+                    "allowNull": true,
+                    "references": {
+                        "model": "users",
+                        "key": "user_id"
+                    },
+                    "onDelete": "CASCADE",
+                    "onUpdate": "CASCADE",
                     "seqType": "Sequelize.INTEGER"
                 },
                 "name": {
@@ -155,17 +162,6 @@
                     "allowNull": false,
                     "field": "updated_at",
                     "seqType": "Sequelize.DATE"
-                },
-                "user_id": {
-                    "allowNull": true,
-                    "references": {
-                        "model": "users",
-                        "key": "user_id"
-                    },
-                    "onDelete": "SET NULL",
-                    "onUpdate": "CASCADE",
-                    "field": "user_id",
-                    "seqType": "Sequelize.INTEGER"
                 }
             },
             "indexes": []
