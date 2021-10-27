@@ -1,6 +1,13 @@
 /* eslint-disable object-curly-newline */
 const passport = require("passport");
-const { login, forget, jwt, facebook, google, twitter } = require("./strategies");
+const {
+	login,
+	forget,
+	jwt,
+	facebook,
+	google,
+	twitter,
+} = require("./strategies");
 
 passport.use(passport.initialize());
 

@@ -4,15 +4,12 @@ module.exports = {
 	facebook: [
 		new FacebookStrategy(
 			{
-				clientID: " config.facebookID",
-				clientSecret: "config.facebookClientID",
-				callbackURL: "http://localhost:3000/auth/facebook/callback",
+				clientID: process.env.FACEBOOK_CLIENT_ID,
+				clientSecret: process.env.FACEBOOK_APP_ID,
+				callbackURL: "/api/user/callbackFacebook",
 			},
 			(accessToken, refreshToken, profile, done) => {
-				console.log(accessToken);
-				console.log(refreshToken);
-				console.log(profile);
-				done(null, "eee");
+				done(null, profile);
 			}
 		),
 	],

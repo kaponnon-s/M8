@@ -1,24 +1,13 @@
 const passport = require("passport");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 const { users } = require("../repositories");
+const { privateKey } = require("../config/key");
 
 module.exports = {
-	login: (req, res, next) => {
-		passport.authenticate("login", async (err, user, info) => {
-			if (err) return next(err);
-
-			if (user) {
-				return res
-					.status(200)
-					.json({ message: "Login success..", user });
-			}
-
-			return res.status(422).json(info);
-		})(req, res, next);
-	},
 	register: async (req, res, next) => {
 		const {
 			username,
-			password,
 			email,
 			name,
 			gender,
@@ -28,6 +17,10 @@ module.exports = {
 			congenitalDisease,
 			phone,
 		} = req.body;
+
+		let { password } = req.body;
+
+		password = await bcrypt.hash(password, 10);
 
 		const user = { username, password, email };
 
@@ -50,4 +43,56 @@ module.exports = {
 		res.status(200).json({ message: "success", data: newUser });
 		next();
 	},
+
+	login: (req, res, next) => {
+		passport.authenticate("login", async (err, user, info) => {
+			if (err) return next(err);
+
+			if (user) {
+				return res.status(200).json({
+					message: "Login success..",
+					token: jwt.sign(user.password, privateKey, {
+						algorithm: "RS256",
+					}),
+				});
+			}
+
+			return res.status(422).json(info);
+		})(req, res, next);
+	},
+
+	loginFacebook: passport.authenticate("facebook"),
+
+	callbackFacebook: (req, res, next) => {
+		passport.authenticate("facebook", async (err, user, info) => {
+			if (err) return next(err);
+
+			if (user) {
+				return res.status(200).json({
+					message: "Login success..",
+					token: jwt.sign(user, privateKey, {
+						algorithm: "RS256",
+					}),
+				});
+			}
+
+			return res.status(422).json(info);
+		})(req, res, next);
+	},
+	// callbackFacebook: (req, res, next) => {
+	// 	passport.authenticate("facebook", async (err, user, info) => {
+	// 		if (err) return next(err);
+
+	// 		if (user) {
+	// 			return res.status(200).json({
+	// 				message: "Login success..",
+	// 				token: jwt.sign(user, privateKey, {
+	// 					algorithm: "RS256",
+	// 				}),
+	// 			});
+	// 		}
+
+	// 		return res.status(422).json(info);
+	// 	})(req, res, next);
+	// },
 };
