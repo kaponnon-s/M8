@@ -61,6 +61,21 @@ module.exports = {
 		})(req, res, next);
 	},
 
+	showUser: (req, res, next) => {
+		passport.authenticate("jwt", async (err, user, info) => {
+			if (err) return next(err);
+
+			if (user) {
+				return res.status(200).json({
+					message: "Login success..",
+					data: user,
+				});
+			}
+
+			return res.status(422).json(info);
+		})(req, res, next);
+	},
+
 	loginFacebook: passport.authenticate("facebook"),
 
 	callbackFacebook: (req, res, next) => {
@@ -68,31 +83,64 @@ module.exports = {
 			if (err) return next(err);
 
 			if (user) {
-				return res.status(200).json({
-					message: "Login success..",
-					token: jwt.sign(user, privateKey, {
-						algorithm: "RS256",
-					}),
-				});
+				return res
+					.status(200)
+					.redirect(
+						`http://localhost:3000/login/${jwt.sign(
+							user,
+							privateKey,
+							{ algorithm: "RS256" }
+						)}`
+					);
 			}
 
 			return res.status(422).json(info);
 		})(req, res, next);
 	},
-	// callbackFacebook: (req, res, next) => {
-	// 	passport.authenticate("facebook", async (err, user, info) => {
-	// 		if (err) return next(err);
 
-	// 		if (user) {
-	// 			return res.status(200).json({
-	// 				message: "Login success..",
-	// 				token: jwt.sign(user, privateKey, {
-	// 					algorithm: "RS256",
-	// 				}),
-	// 			});
-	// 		}
+	loginGoogle: passport.authenticate("google", {
+		scope: ["https://www.googleapis.com/auth/plus.login"],
+	}),
 
-	// 		return res.status(422).json(info);
-	// 	})(req, res, next);
-	// },
+	callbackGoogle: (req, res, next) => {
+		passport.authenticate("google", async (err, user, info) => {
+			if (err) return next(err);
+
+			if (user) {
+				return res
+					.status(200)
+					.redirect(
+						`http://localhost:3000/login/${jwt.sign(
+							user,
+							privateKey,
+							{ algorithm: "RS256" }
+						)}`
+					);
+			}
+
+			return res.status(422).json(info);
+		})(req, res, next);
+	},
+
+	loginTwitter: passport.authenticate("twitter"),
+
+	callbackTwitter: (req, res, next) => {
+		passport.authenticate("twitter", async (err, user, info) => {
+			if (err) return next(err);
+
+			if (user) {
+				return res
+					.status(200)
+					.redirect(
+						`http://localhost:3000/login/${jwt.sign(
+							user,
+							privateKey,
+							{ algorithm: "RS256" }
+						)}`
+					);
+			}
+
+			return res.status(422).json(info);
+		})(req, res, next);
+	},
 };

@@ -4,15 +4,12 @@ module.exports = {
 	twitter: [
 		new TwitterStrategy(
 			{
-				consumerKey: "config.facebookID",
-				consumerSecret: "config.facebookClientID",
-				callbackURL: "http://localhost:3000/auth/facebook/callback",
+				consumerKey: process.env.TWITTER_CLIENT_ID,
+				consumerSecret: process.env.TWITTER_SECRET_ID,
+				callbackURL: "/api/user/callbackTwitter",
 			},
 			(token, tokenSecret, profile, done) => {
-				console.log(token);
-				console.log(tokenSecret);
-				console.log(profile);
-				done(null, "eee");
+				done(null, profile);
 			}
 		),
 	],

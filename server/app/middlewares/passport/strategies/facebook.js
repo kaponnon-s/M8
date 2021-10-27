@@ -5,7 +5,7 @@ module.exports = {
 		new FacebookStrategy(
 			{
 				clientID: process.env.FACEBOOK_CLIENT_ID,
-				clientSecret: process.env.FACEBOOK_APP_ID,
+				clientSecret: process.env.FACEBOOK_SECRET_ID,
 				callbackURL: "/api/user/callbackFacebook",
 			},
 			(accessToken, refreshToken, profile, done) => {

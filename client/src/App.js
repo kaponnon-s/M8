@@ -1,35 +1,24 @@
 import {Switch, Route} from "react-router-dom";
+
 import Test from "./components/Test";
+import Login from "./pages/Login";
 
 function App() {
-	async function onSubmit(event) {
-		event.preventDefault();
-		try {
-			window.open(`http://localhost:5000/api/user/loginFacebook`);
-		} catch (error) {
-			console.log("err");
-		}
-	}
-
 	return (
 		<>
 			<Switch>
-				<Route path="/admin/:filename">
-          <Test/>
+				<Route path="/login/:token">
+					<Test />
 				</Route>
 
 				<Route path="/" exact>
+					<Login />
 				</Route>
 
-				<Route path="">
-				</Route>
-
+				<Route path="" />
 			</Switch>
 		</>
 	);
-	// return <div className="App">
-	//   <button onClick={onSubmit}>Click me!!</button>
-	// </div>;
 }
 
-export default App;
+export default App
