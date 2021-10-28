@@ -3,7 +3,9 @@ const router = require("express").Router();
 const {
 	register,
 	showUser,
+	setPassword,
 	login,
+	sendEmail,
 	loginFacebook,
 	callbackFacebook,
 	loginGoogle,
@@ -13,7 +15,11 @@ const {
 } = require("../controllers/user.controllers");
 
 router.post("/register", register);
+router.post("/sendEmail", sendEmail);
+
 router.get("/showUser", showUser);
+router.put("/setPassword", setPassword);
+
 router.post("/login", login);
 router.get("/loginFacebook", loginFacebook);
 router.get("/callbackFacebook", callbackFacebook);

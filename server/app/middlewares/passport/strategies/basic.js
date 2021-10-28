@@ -11,13 +11,8 @@ module.exports = {
 		"login",
 		new BasicStrategy(async (username, password, done) => {
 			try {
-				const user = await users.getUserForLogin(
-					username,
-					await bcrypt.compare(
-						password,
-						await users.getPassword(username)
-					)
-				);
+				const user = await users.getUserForLogin(username, password);
+
 				done(null, user);
 			} catch (err) {
 				done(err);

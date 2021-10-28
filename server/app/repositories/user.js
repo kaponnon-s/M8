@@ -2,12 +2,13 @@
 /* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable max-len */
 /* eslint-disable no-return-await */
-const { user, address, userDetail } = require("../models");
+const bcrypt = require("bcrypt");
+
+const { user, userDetail } = require("../models");
 
 module.exports = {
 	getUserForLogin: async (username, password) => {
 		try {
-			if (!password) return { error: "Invalid username or password" };
 			const customer = await user.findOne({
 				where: { username },
 				include: [
@@ -18,10 +19,10 @@ module.exports = {
 				],
 				attributes: { exclude: ["createdAt", "updatedAt"] },
 			});
-			if (customer) return customer.dataValues;
+			if (await bcrypt.compare(password, customer.dataValues.password)) { return customer.dataValues; }
 			return { error: "Invalid username or password" };
 		} catch (error) {
-			return { error };
+			return { error: "Invalid username or password" };
 		}
 	},
 	getPassword: async (username) => {
@@ -59,6 +60,37 @@ module.exports = {
 			});
 		} catch (error) {
 			return { error };
+		}
+	},
+	regisTest: async (users) => {
+		try {
+			return await user.create(users);
+		} catch (error) {
+			return { error };
+		}
+	},
+	checkEmail: async (email) => {
+		try {
+			const newUser = await user.findOne({ where: { email } });
+			if (newUser) return newUser.dataValues;
+			// eslint-disable-next-line no-throw-literal
+			throw "Not found your email";
+		} catch (error) {
+			return { error: true, message: error };
+		}
+	},
+
+	setPassword: async (id, password) => {
+		try {
+			const users = await user.update(
+				{ password: await bcrypt.hash(password, 10) },
+				{ where: { id } }
+			);
+			if (users) return;
+			// eslint-disable-next-line no-throw-literal
+			throw "Sever has problem.";
+		} catch (error) {
+			return { error: true, message: error };
 		}
 	},
 };

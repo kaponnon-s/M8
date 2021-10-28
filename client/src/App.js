@@ -4,27 +4,44 @@ import Display from "./components/Display";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Forget from "./pages/Forget";
+import ResetPass from "./pages/ResetPass";
 
-import "./App.css"
+import Container from "./components/Container";
+
+import "./App.css";
 
 function App() {
 	return (
 		<>
 			<Switch>
 				<Route path="/login/:token">
-					<Display />
+					<Container>
+						<Display />
+					</Container>
+				</Route>
+
+				<Route path="/reset-password/:token">
+					<Container>
+						<ResetPass />
+					</Container>
 				</Route>
 
 				<Route path="/forget-password">
-					<Forget />
+					<Container>
+						<Forget />
+					</Container>
 				</Route>
 
 				<Route path="/register">
-					<Register />
+					<Container>
+						<Register />
+					</Container>
 				</Route>
 
 				<Route path="/" exact>
-					<Login />
+					<Container>
+						<Login />
+					</Container>
 				</Route>
 
 				<Route path="" />
@@ -33,4 +50,4 @@ function App() {
 	);
 }
 
-export default App
+export default App;
