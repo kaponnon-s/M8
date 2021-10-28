@@ -2,7 +2,7 @@ import React from "react";
 import {useParams} from "react-router-dom";
 import client from "../API";
 
-export default function Test() {
+export default function Display() {
 	const [intel, setIntel] = React.useState();
 	const {token} = useParams();
 

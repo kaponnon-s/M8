@@ -1,14 +1,26 @@
 import {Switch, Route} from "react-router-dom";
 
-import Test from "./components/Test";
+import Display from "./components/Display";
 import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Forget from "./pages/Forget";
+
+import "./App.css"
 
 function App() {
 	return (
 		<>
 			<Switch>
 				<Route path="/login/:token">
-					<Test />
+					<Display />
+				</Route>
+
+				<Route path="/forget-password">
+					<Forget />
+				</Route>
+
+				<Route path="/register">
+					<Register />
 				</Route>
 
 				<Route path="/" exact>

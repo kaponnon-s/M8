@@ -1,3 +1,4 @@
+/* eslint-disable object-curly-newline */
 const passport = require("passport");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
@@ -51,7 +52,7 @@ module.exports = {
 			if (user) {
 				return res.status(200).json({
 					message: "Login success..",
-					token: jwt.sign(user.password, privateKey, {
+					token: jwt.sign({ ...user, provider: "นนท์เอง" }, privateKey, {
 						algorithm: "RS256",
 					}),
 				});
@@ -83,15 +84,21 @@ module.exports = {
 			if (err) return next(err);
 
 			if (user) {
-				return res
-					.status(200)
-					.redirect(
-						`http://localhost:3000/login/${jwt.sign(
-							user,
-							privateKey,
-							{ algorithm: "RS256" }
-						)}`
-					);
+				// eslint-disable-next-line no-unused-vars
+				const { id, displayName, photos, provider } = user;
+
+				return res.status(200).redirect(
+					`http://localhost:3000/login/${jwt.sign(
+						{
+							id,
+							displayName,
+							photos,
+							provider,
+						},
+						privateKey,
+						{ algorithm: "RS256" }
+					)}`
+				);
 			}
 
 			return res.status(422).json(info);
@@ -107,15 +114,20 @@ module.exports = {
 			if (err) return next(err);
 
 			if (user) {
-				return res
-					.status(200)
-					.redirect(
-						`http://localhost:3000/login/${jwt.sign(
-							user,
-							privateKey,
-							{ algorithm: "RS256" }
-						)}`
-					);
+				const { id, displayName, photos, provider } = user;
+
+				return res.status(200).redirect(
+					`http://localhost:3000/login/${jwt.sign(
+						{
+							id,
+							displayName,
+							photos,
+							provider,
+						},
+						privateKey,
+						{ algorithm: "RS256" }
+					)}`
+				);
 			}
 
 			return res.status(422).json(info);
@@ -129,15 +141,20 @@ module.exports = {
 			if (err) return next(err);
 
 			if (user) {
-				return res
-					.status(200)
-					.redirect(
-						`http://localhost:3000/login/${jwt.sign(
-							user,
-							privateKey,
-							{ algorithm: "RS256" }
-						)}`
-					);
+				const { id, displayName, photos, provider } = user;
+
+				return res.status(200).redirect(
+					`http://localhost:3000/login/${jwt.sign(
+						{
+							id,
+							displayName,
+							photos,
+							provider,
+						},
+						privateKey,
+						{ algorithm: "RS256" }
+					)}`
+				);
 			}
 
 			return res.status(422).json(info);
