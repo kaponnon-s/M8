@@ -105,6 +105,11 @@ export default styled(SendEmail)`
 			padding: 0 0 3% 0;
 			outline: none;
 			font-size: 100%;
+
+			:focus {
+				border-bottom: 1px solid rgba(60, 177, 87, 0.7);
+				transition: 0.5s;
+			}
 		}
 	}
 	a {
