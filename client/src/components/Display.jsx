@@ -21,7 +21,6 @@ function Display({className}) {
 			}
 		}
 		getUser();
-		console.log(intel);
 	}, [intel, token]);
 
 	return <div className={className}>{intel ? <Detail data={intel} /> : <h1>Not found</h1>}</div>;
@@ -29,12 +28,20 @@ function Display({className}) {
 
 function Detail({data}) {
 	const [checkPro, setCheckPro] = React.useState(1);
-
-	function check(provider) {
-		if (provider === "นนท์เอง") setCheckPro(0);
-	}
+	const [color, setColor] = React.useState("");
+	const [name, setName] = React.useState("");
 
 	React.useEffect(() => {
+		if (data.provider === "facebook") setColor("#4867AA") && setName("facebook-circle");
+		else if (data.provider === "google") setColor("#E34133") && setName("google-plus-circle");
+		else if (data.provider === "twitter") setColor("#3FA6DA") && setName("twitter");
+		else setColor("black") && setName("user");
+	}, [data.provider]);
+
+	React.useEffect(() => {
+		function check(provider) {
+			if (provider === "นนท์เอง") setCheckPro(0);
+		}
 		check(data.provider);
 	}, [data]);
 
@@ -42,20 +49,19 @@ function Detail({data}) {
 		<>
 			{checkPro ? (
 				<>
-					<h1>{data.id}</h1>
-					<h1>{data.displayName}</h1>
-					<box-icon
-						name={data.provider}
-						type="logo"
-						size="md">
+					<box-icon name={name} type="logo" color={color} size="md">
 						{data.provider}
 					</box-icon>
+					{/* <h1>{data.id}</h1> */}
+					<h1>{data.displayName}</h1>
 				</>
 			) : (
 				<>
-					<h1>{data.id}</h1>
+					<box-icon name={name} type="solid" color={color} size="md">
+						{data.provider}
+					</box-icon>
+					{/* <h1>{data.id}</h1> */}
 					<h1>{data.username}</h1>
-					<box-icon type='solid' name='user' size="md">{data.provider}</box-icon>
 				</>
 			)}
 		</>
@@ -70,4 +76,15 @@ export default styled(Display)`
 	box-shadow: 1px 1px 4px 0.1px rgba(0, 0, 0, 0.7);
 	border-radius: 0.5rem;
 	padding: 3%;
+
+	box-icon {
+		margin: 0 5px;
+		transition: 1s;
+
+		:hover {
+			border-radius: 2rem;
+			box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+			transition: 1s;
+		}
+	}
 `;
