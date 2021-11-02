@@ -1,3 +1,4 @@
+/* eslint-disable consistent-return */
 /* eslint-disable object-curly-newline */
 const passport = require("passport");
 const bcrypt = require("bcrypt");
@@ -27,6 +28,7 @@ module.exports = {
 
 		const user = { username, password, email };
 
+		// eslint-disable-next-line no-unused-vars
 		const userDetail = {
 			name,
 			gender,
@@ -55,10 +57,13 @@ module.exports = {
 		const user = await users.checkEmail(email);
 
 		if (user.error) {
-			res.status(404).json(user.message);
+			return res.status(404).json(user.message);
 		}
 
-		const token = jwt.sign(user, privateKey, { algorithm: "RS256" });
+		const token = jwt.sign(user, privateKey, {
+			algorithm: "RS256",
+			expiresIn: 120,
+		});
 
 		const transporter = nodemailer.createTransport({
 			host: "smtp.gmail.com",
@@ -102,6 +107,7 @@ module.exports = {
 						privateKey,
 						{
 							algorithm: "RS256",
+							expiresIn: "10d",
 						}
 					),
 				});
@@ -153,19 +159,19 @@ module.exports = {
 			if (err) return next(err);
 
 			if (user) {
-				// eslint-disable-next-line no-unused-vars
-				const { id, displayName, photos, provider } = user;
+				const { id, displayName, provider } = user;
+
+				const newUser = await users.regisSocialTest({
+					id,
+					displayName,
+					provider,
+				});
 
 				return res.status(200).redirect(
 					`http://localhost:3000/login/${jwt.sign(
-						{
-							id,
-							displayName,
-							photos,
-							provider,
-						},
+						newUser,
 						privateKey,
-						{ algorithm: "RS256" }
+						{ algorithm: "RS256", expiresIn: "10d" }
 					)}`
 				);
 			}
@@ -183,18 +189,19 @@ module.exports = {
 			if (err) return next(err);
 
 			if (user) {
-				const { id, displayName, photos, provider } = user;
+				const { id, displayName, provider } = user;
+
+				const newUser = await users.regisSocialTest({
+					id,
+					displayName,
+					provider,
+				});
 
 				return res.status(200).redirect(
 					`http://localhost:3000/login/${jwt.sign(
-						{
-							id,
-							displayName,
-							photos,
-							provider,
-						},
+						newUser,
 						privateKey,
-						{ algorithm: "RS256" }
+						{ algorithm: "RS256", expiresIn: "10d" }
 					)}`
 				);
 			}
@@ -210,18 +217,19 @@ module.exports = {
 			if (err) return next(err);
 
 			if (user) {
-				const { id, displayName, photos, provider } = user;
+				const { id, displayName, provider } = user;
+
+				const newUser = await users.regisSocialTest({
+					id,
+					displayName,
+					provider,
+				});
 
 				return res.status(200).redirect(
 					`http://localhost:3000/login/${jwt.sign(
-						{
-							id,
-							displayName,
-							photos,
-							provider,
-						},
+						newUser,
 						privateKey,
-						{ algorithm: "RS256" }
+						{ algorithm: "RS256", expiresIn: "10d" }
 					)}`
 				);
 			}

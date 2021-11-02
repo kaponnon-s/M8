@@ -9,25 +9,24 @@ module.exports = (sequelize, DataTypes) => {
 		 */
 		static associate(models) {
 			// define association here
-			userDetail.belongsTo(models.user, {
-				foreignKey: "userId"
-			});
+			userDetail.belongsTo(models.user);
+
+			userDetail.belongsTo(models.socialUser);
 		}
 	}
 	userDetail.init(
 		{
-			userId: {
+			id: {
 				type: DataTypes.INTEGER,
 				primaryKey: true,
 				autoIncrement: true,
-				field: "user_id",
 			},
 			name: {
 				type: DataTypes.STRING,
 				allowNull: false,
 				validate: {
 					notEmpty: true,
-					isLowercase: true
+					isLowercase: true,
 				},
 			},
 			gender: {

@@ -59,6 +59,49 @@
                     "onUpdate": "CASCADE",
                     "field": "user_id",
                     "seqType": "Sequelize.INTEGER"
+                },
+                "socialUserId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "social_users",
+                        "key": "social_user_id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "social_user_id",
+                    "seqType": "Sequelize.STRING"
+                }
+            },
+            "indexes": []
+        },
+        "social_users": {
+            "tableName": "social_users",
+            "schema": {
+                "id": {
+                    "primaryKey": true,
+                    "autoIncrement": false,
+                    "field": "social_user_id",
+                    "seqType": "Sequelize.STRING"
+                },
+                "displayName": {
+                    "allowNull": false,
+                    "field": "display_name",
+                    "seqType": "Sequelize.STRING"
+                },
+                "provider": {
+                    "allowNull": false,
+                    "field": "provider",
+                    "seqType": "Sequelize.STRING"
+                },
+                "createdAt": {
+                    "allowNull": false,
+                    "field": "created_at",
+                    "seqType": "Sequelize.DATE"
+                },
+                "updatedAt": {
+                    "allowNull": false,
+                    "field": "updated_at",
+                    "seqType": "Sequelize.DATE"
                 }
             },
             "indexes": []
@@ -105,17 +148,10 @@
         "user_details": {
             "tableName": "user_details",
             "schema": {
-                "userId": {
+                "id": {
                     "primaryKey": true,
                     "autoIncrement": true,
-                    "field": "user_id",
-                    "allowNull": true,
-                    "references": {
-                        "model": "users",
-                        "key": "user_id"
-                    },
-                    "onDelete": "CASCADE",
-                    "onUpdate": "CASCADE",
+                    "field": "id",
                     "seqType": "Sequelize.INTEGER"
                 },
                 "name": {
@@ -162,6 +198,28 @@
                     "allowNull": false,
                     "field": "updated_at",
                     "seqType": "Sequelize.DATE"
+                },
+                "socialUserId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "social_users",
+                        "key": "social_user_id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "social_user_id",
+                    "seqType": "Sequelize.STRING"
+                },
+                "userId": {
+                    "allowNull": true,
+                    "references": {
+                        "model": "users",
+                        "key": "user_id"
+                    },
+                    "onDelete": "SET NULL",
+                    "onUpdate": "CASCADE",
+                    "field": "user_id",
+                    "seqType": "Sequelize.INTEGER"
                 }
             },
             "indexes": []

@@ -3,20 +3,56 @@ const Sequelize = require("sequelize");
 /**
  * Actions summary:
  *
+ * createTable() => "social_users", deps: []
  * createTable() => "users", deps: []
- * createTable() => "addresses", deps: [users]
- * createTable() => "user_details", deps: [users]
+ * createTable() => "addresses", deps: [users, social_users]
+ * createTable() => "user_details", deps: [social_users, users]
  *
  */
 
 const info = {
 	revision: 1,
-	name: "createDatabases",
-	created: "2021-10-26T17:19:19.149Z",
+	name: "createDatabase",
+	created: "2021-10-29T14:24:03.895Z",
 	comment: "",
 };
 
 const migrationCommands = (transaction) => [
+	{
+		fn: "createTable",
+		params: [
+			"social_users",
+			{
+				id: {
+					type: Sequelize.STRING,
+					field: "social_user_id",
+					autoIncrement: false,
+					primaryKey: true,
+				},
+				displayName: {
+					type: Sequelize.STRING,
+					field: "display_name",
+					allowNull: false,
+				},
+				provider: {
+					type: Sequelize.STRING,
+					field: "provider",
+					allowNull: false,
+				},
+				createdAt: {
+					type: Sequelize.DATE,
+					field: "created_at",
+					allowNull: false,
+				},
+				updatedAt: {
+					type: Sequelize.DATE,
+					field: "updated_at",
+					allowNull: false,
+				},
+			},
+			{ transaction },
+		],
+	},
 	{
 		fn: "createTable",
 		params: [
@@ -110,6 +146,14 @@ const migrationCommands = (transaction) => [
 					references: { model: "users", key: "user_id" },
 					allowNull: true,
 				},
+				socialUserId: {
+					type: Sequelize.STRING,
+					field: "social_user_id",
+					onUpdate: "CASCADE",
+					onDelete: "SET NULL",
+					references: { model: "social_users", key: "social_user_id" },
+					allowNull: true,
+				},
 			},
 			{ transaction },
 		],
@@ -119,13 +163,9 @@ const migrationCommands = (transaction) => [
 		params: [
 			"user_details",
 			{
-				userId: {
+				id: {
 					type: Sequelize.INTEGER,
-					onUpdate: "CASCADE",
-					onDelete: "CASCADE",
-					references: { model: "users", key: "user_id" },
-					allowNull: true,
-					field: "user_id",
+					field: "id",
 					autoIncrement: true,
 					primaryKey: true,
 				},
@@ -150,6 +190,22 @@ const migrationCommands = (transaction) => [
 					field: "updated_at",
 					allowNull: false,
 				},
+				socialUserId: {
+					type: Sequelize.STRING,
+					field: "social_user_id",
+					onUpdate: "CASCADE",
+					onDelete: "SET NULL",
+					references: { model: "social_users", key: "social_user_id" },
+					allowNull: true,
+				},
+				userId: {
+					type: Sequelize.INTEGER,
+					field: "user_id",
+					onUpdate: "CASCADE",
+					onDelete: "SET NULL",
+					references: { model: "users", key: "user_id" },
+					allowNull: true,
+				},
 			},
 			{ transaction },
 		],
@@ -160,6 +216,10 @@ const rollbackCommands = (transaction) => [
 	{
 		fn: "dropTable",
 		params: ["addresses", { transaction }],
+	},
+	{
+		fn: "dropTable",
+		params: ["social_users", { transaction }],
 	},
 	{
 		fn: "dropTable",

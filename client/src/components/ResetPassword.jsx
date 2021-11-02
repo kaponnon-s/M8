@@ -1,6 +1,7 @@
 import React from "react";
 import {useParams, useHistory} from "react-router-dom";
 import styled from "styled-components";
+import Swal from "sweetalert2";
 import client from "../API";
 
 function ResetPassword({className}) {
@@ -13,7 +14,7 @@ function ResetPassword({className}) {
 	async function onSubmit(event) {
 		event.preventDefault();
 		if (password !== confirmPassword) {
-			alert("password and confirm password don't same pass");
+			alertError("Password and confirm password don't same pass");
 		} else {
 			try {
 				await client.put(
@@ -25,11 +26,31 @@ function ResetPassword({className}) {
 						},
 					},
 				);
-				history.push("")
+				alertSuccess("Reset password success!");
 			} catch (error) {
-				alert(error);
+				if (error.response.data.message) alertError(error.response.data.message);
+				else alertError(error);
 			}
 		}
+	}
+
+	function alertError(err) {
+		Swal.fire({
+			icon: "error",
+			title: "Error Invalid Information",
+			text: `${err}`,
+		});
+	}
+
+	async function alertSuccess(data) {
+		await Swal.fire({
+			icon: "success",
+			title: "Success!",
+			text: `${data}`,
+			timer: 1500,
+			showConfirmButton: false,
+		});
+		history.push("");
 	}
 
 	return (
@@ -41,7 +62,7 @@ function ResetPassword({className}) {
 					type="password"
 					id="password"
 					value={password}
-					placeholder="password"
+					placeholder="New password"
 					onChange={(event) => setPassword(event.target.value)}
 				/>
 			</div>
@@ -52,7 +73,7 @@ function ResetPassword({className}) {
 					type="password"
 					id="confirmPassword"
 					value={confirmPassword}
-					placeholder="confirmPassword"
+					placeholder="Confirm your password"
 					onChange={(event) => setConfirmPassword(event.target.value)}
 				/>
 			</div>
@@ -71,15 +92,18 @@ export default styled(ResetPassword)`
 	border-radius: 0.5rem;
 	padding: 3%;
 	button {
+		margin-bottom: 10%;
 		width: 80%;
-		padding: 0.2rem 0;
-		font-size: 80%;
-		font-weight: 900;
+		padding: 0.5rem 0;
+		font-size: 100%;
+		font-weight: bold;
 		color: white;
-		border-radius: 0.1rem;
+		border-radius: 0.3rem;
 		border: 0.5px solid rgba(0, 0, 0, 0.1);
-		box-shadow: 1px 1px 4px 0.1px rgba(0, 0, 0, 0.3);
+		box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
 		background: rgb(34, 87, 122);
+		transition: 0.3s;
+		cursor: pointer;
 		background: linear-gradient(
 			150deg,
 			rgba(34, 87, 122, 1) 0%,
@@ -87,6 +111,12 @@ export default styled(ResetPassword)`
 			rgb(60, 177, 87) 76%,
 			rgba(128, 237, 153, 1) 100%
 		);
+		:hover {
+			border: 1px solid rgba(0, 0, 0, 0.5);
+			transform: translateY(-5px);
+			box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+			transition: 0.3s;
+		}
 	}
 	.input-group {
 		display: flex;
@@ -100,6 +130,10 @@ export default styled(ResetPassword)`
 			padding: 0 0 3% 0;
 			outline: none;
 			font-size: 100%;
+			:focus {
+				border-bottom: 1px solid rgba(60, 177, 87, 0.7);
+				transition: 0.5s;
+			}
 		}
 	}
 `;

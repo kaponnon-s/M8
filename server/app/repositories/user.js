@@ -4,7 +4,7 @@
 /* eslint-disable no-return-await */
 const bcrypt = require("bcrypt");
 
-const { user, userDetail } = require("../models");
+const { user, socialUser, userDetail } = require("../models");
 
 module.exports = {
 	getUserForLogin: async (username, password) => {
@@ -19,7 +19,9 @@ module.exports = {
 				],
 				attributes: { exclude: ["createdAt", "updatedAt"] },
 			});
-			if (await bcrypt.compare(password, customer.dataValues.password)) { return customer.dataValues; }
+			if (await bcrypt.compare(password, customer.dataValues.password)) {
+				return customer.dataValues;
+			}
 			return { error: "Invalid username or password" };
 		} catch (error) {
 			return { error: "Invalid username or password" };
@@ -65,6 +67,20 @@ module.exports = {
 	regisTest: async (users) => {
 		try {
 			return await user.create(users);
+		} catch (error) {
+			return { error };
+		}
+	},
+	regisSocialTest: async (users) => {
+		try {
+			const checkUser = await socialUser.findOne({
+				where: { id: users.id },
+			});
+			if (checkUser) {
+				return checkUser.dataValues;
+			}
+			const newUser = await socialUser.create(users);
+			return newUser.dataValues;
 		} catch (error) {
 			return { error };
 		}

@@ -3,7 +3,6 @@ import styled from "styled-components";
 
 import "boxicons";
 
-
 function SocialButton({className}) {
 	return (
 		<div className={className}>
@@ -47,7 +46,15 @@ function SocialButton({className}) {
 }
 
 export default styled(SocialButton)`
-	box-icon{
-		margin: 0 5px;   
+	box-icon {
+		margin: 0 5px;
+		cursor: pointer;
+		transition: 1s;
+
+		:hover {
+			border-radius: 2rem;
+			box-shadow: rgba(14, 30, 37, 0.12) 0px 2px 4px 0px, rgba(14, 30, 37, 0.32) 0px 2px 16px 0px;
+			transition: 1s;
+		}
 	}
 `;

@@ -22,7 +22,7 @@ function Display({className}) {
 		}
 		getUser();
 		console.log(intel);
-	}, [token]);
+	}, [intel, token]);
 
 	return <div className={className}>{intel ? <Detail data={intel} /> : <h1>Not found</h1>}</div>;
 }

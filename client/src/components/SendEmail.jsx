@@ -1,26 +1,40 @@
 import React from "react";
 import styled from "styled-components";
 import {Link} from "react-router-dom";
+import Swal from "sweetalert2";
 
 import axios from "axios";
 import "boxicons";
 
 function SendEmail({className}) {
 	const [email, setEmail] = React.useState("");
-	const [message, setMessage] = React.useState("");
 
 	async function sendEmail(event) {
 		event.preventDefault();
 		try {
-			const data = await axios.post("http://localhost:5000/api/user/sendEmail", {email});
-			console.log(data.data);
-			setMessage(data.data.message);
-			alert(data.data.message);
+			await axios.post("http://localhost:5000/api/user/sendEmail", {email});
+			alertSuccess();
 		} catch (error) {
-			alert("Not found email.");
+			alertError("Not found email.");
 		}
 	}
 
+	function alertError(err) {
+		Swal.fire({
+			icon: "error",
+			title: "Error Invalid Information",
+			text: `${err}`,
+		});
+	}
+
+	async function alertSuccess() {
+		await Swal.fire({
+			icon: "success",
+			title: "Send Email Success!",
+			timer: 2000,
+			showConfirmButton: false,
+		});
+	}
 	return (
 		<form id="create-form" onSubmit={sendEmail} className={className}>
 			<h1>Avo</h1>
@@ -37,7 +51,6 @@ function SendEmail({className}) {
 				<box-icon name="envelope" type="solid"></box-icon>
 			</div>
 			<button type="submit">SEND</button>
-			<p>{message}</p>
 			<Link to="">
 				<box-icon name="arrow-back"></box-icon>Back to login page
 			</Link>
@@ -54,15 +67,18 @@ export default styled(SendEmail)`
 	border-radius: 0.5rem;
 	padding: 3%;
 	button {
+		margin-bottom: 10%;
 		width: 80%;
-		padding: 0.2rem 0;
-		font-size: 80%;
-		font-weight: 900;
+		padding: 0.5rem 0;
+		font-size: 100%;
+		font-weight: bold;
 		color: white;
-		border-radius: 0.1rem;
+		border-radius: 0.3rem;
 		border: 0.5px solid rgba(0, 0, 0, 0.1);
-		box-shadow: 1px 1px 4px 0.1px rgba(0, 0, 0, 0.3);
+		box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.3);
 		background: rgb(34, 87, 122);
+		transition: 0.3s;
+		cursor: pointer;
 		background: linear-gradient(
 			150deg,
 			rgba(34, 87, 122, 1) 0%,
@@ -70,6 +86,12 @@ export default styled(SendEmail)`
 			rgb(60, 177, 87) 76%,
 			rgba(128, 237, 153, 1) 100%
 		);
+		:hover {
+			border: 1px solid rgba(0, 0, 0, 0.5);
+			transform: translateY(-5px);
+			box-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+			transition: 0.3s;
+		}
 	}
 	.input-group {
 		display: flex;
