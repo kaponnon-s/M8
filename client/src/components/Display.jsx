@@ -32,10 +32,17 @@ function Detail({data}) {
 	const [name, setName] = React.useState("");
 
 	React.useEffect(() => {
-		if (data.provider === "facebook") setColor("#4867AA") && setName("facebook-circle");
-		else if (data.provider === "google") setColor("#E34133") && setName("google-plus-circle");
-		else if (data.provider === "twitter") setColor("#3FA6DA") && setName("twitter");
-		else setColor("black") && setName("user");
+		if (data.provider === "facebook") setName("facebook-circle");
+		else if (data.provider === "google") setName("google-plus-circle") ;
+		else if (data.provider === "twitter") setName("twitter") ;
+		else setName("user");
+	}, [data.provider]);
+
+	React.useEffect(() => {
+		if (data.provider === "facebook") setColor("#4867AA") ;
+		else if (data.provider === "google") setColor("#E34133") ;
+		else if (data.provider === "twitter") setColor("#3FA6DA") ;
+		else setColor("black");
 	}, [data.provider]);
 
 	React.useEffect(() => {
