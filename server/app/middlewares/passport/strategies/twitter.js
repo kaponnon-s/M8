@@ -9,6 +9,7 @@ module.exports = {
 				callbackURL: "/api/user/callbackTwitter",
 			},
 			(token, tokenSecret, profile, done) => {
+				console.log(profile);
 				done(null, profile);
 			}
 		),

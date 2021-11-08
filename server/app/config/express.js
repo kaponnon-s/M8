@@ -4,10 +4,17 @@ const helmet = require("helmet");
 const compression = require("compression");
 const cors = require("cors");
 const morgan = require("morgan");
+const path = require("path");
 const router = require("../routes");
 const { combined, common } = require("./morgan");
 
 const app = express();
+
+app.use(express.static(path.join(__dirname, "../client/build")));
+
+app.get("*", (req, res) => {
+	res.sendFile(path.join(`${global.basename}/../client/build/index.html`));
+});
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

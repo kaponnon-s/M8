@@ -152,7 +152,9 @@ module.exports = {
 		})(req, res, next);
 	},
 
-	loginFacebook: passport.authenticate("facebook"),
+	loginFacebook: passport.authenticate("facebook", {
+		scope: ["email", "public_profile"],
+	}),
 
 	callbackFacebook: (req, res, next) => {
 		passport.authenticate("facebook", async (err, user, info) => {
@@ -181,7 +183,7 @@ module.exports = {
 	},
 
 	loginGoogle: passport.authenticate("google", {
-		scope: ["https://www.googleapis.com/auth/plus.login"],
+		scope: ["email", "profile"],
 	}),
 
 	callbackGoogle: (req, res, next) => {
@@ -210,7 +212,9 @@ module.exports = {
 		})(req, res, next);
 	},
 
-	loginTwitter: passport.authenticate("twitter"),
+	loginTwitter: passport.authenticate("twitter", {
+		scope: ["email", "profile"],
+	}),
 
 	callbackTwitter: (req, res, next) => {
 		passport.authenticate("twitter", async (err, user, info) => {

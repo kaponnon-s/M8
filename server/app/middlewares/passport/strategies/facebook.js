@@ -9,6 +9,7 @@ module.exports = {
 				callbackURL: "/api/user/callbackFacebook",
 			},
 			(accessToken, refreshToken, profile, done) => {
+				console.log(profile);
 				done(null, profile);
 			}
 		),
