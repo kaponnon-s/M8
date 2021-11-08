@@ -4,7 +4,7 @@ const helmet = require("helmet");
 const compression = require("compression");
 const cors = require("cors");
 const morgan = require("morgan");
-const router = require("../routes");
+// const router = require("../routes");
 const { combined, common } = require("./morgan");
 
 const app = express();
@@ -18,6 +18,10 @@ app.use(cors());
 app.use(morgan(...common));
 app.use(morgan(...combined));
 
-app.use("/api", router);
+// app.use("/api", router);
+
+app.use("/", (req, res) => {
+	res.send("Hello World");
+});
 
 module.exports = app;
