@@ -3,6 +3,7 @@ const session = require("express-session");
 const helmet = require("helmet");
 const compression = require("compression");
 const cors = require("cors");
+const path = require("path");
 const morgan = require("morgan");
 // const router = require("../routes");
 const { combined, common } = require("./morgan");
@@ -20,8 +21,10 @@ app.use(morgan(...combined));
 
 // app.use("/api", router);
 
-app.use("/", (req, res) => {
-	res.send("Hello World");
+app.use(express.static(path.join(global.basename, "./client/build")));
+
+app.get("*", (req, res) => {
+	res.sendFile(path.join(global.basename, "./client/build/index.html"));
 });
 
 module.exports = app;
