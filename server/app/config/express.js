@@ -21,10 +21,10 @@ app.use(morgan(...combined));
 
 // app.use("/api", router);
 
-app.use(express.static(path.join(global.basename, "./client/build")));
+app.use(express.static(path.join(global.basename, "../client/build")));
 
 app.get("*", (req, res) => {
-	res.sendFile(path.join(global.basename, "./client/build/index.html"));
+	res.sendFile(path.join(global.basename, "../client/build/index.html"));
 });
 
 module.exports = app;
