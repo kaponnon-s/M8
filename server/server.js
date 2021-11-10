@@ -7,6 +7,10 @@ global.basename = __dirname;
 
 const app = require("express")();
 
+app.get("/", (req, res) => {
+	res.send("Hello World!");
+});
+
 const listener = app.listen(process.env.PORT || 5000, (err) => {
 	if (err) {
 		console.log(err);
