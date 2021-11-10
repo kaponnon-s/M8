@@ -21,6 +21,10 @@ app.use(morgan(...combined));
 
 // app.use("/api", router);
 
+app.use("/", (req, res) => {
+	console.log("Hello World");
+});
+
 // app.use(express.static(path.join(global.basename, "../client/build")));
 
 // app.get("*", (req, res) => {
