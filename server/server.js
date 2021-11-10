@@ -1,5 +1,5 @@
 require("dotenv").config();
-require("./app/middlewares/passport");
+// require("./app/middlewares/passport");
 
 global.basename = __dirname;
 
